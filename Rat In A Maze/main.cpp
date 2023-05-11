@@ -278,9 +278,6 @@ public:
 };
 
 
-
-
-
 class Maze {
 
 private:
@@ -386,6 +383,7 @@ void Maze::Motion()
         
 		if (maze[CurrentCx][CurrentCy + 1] != 'B')
 		{
+			// Moving rightward
 			CurrentCy++;
 
 			if (maze[CurrentCx + 1][CurrentCy] != 'B')
@@ -395,7 +393,20 @@ void Maze::Motion()
 			}
 
 
-		}else if (maze[CurrentCx][CurrentCy + 1] == 'B' && maze[CurrentCx + 1][CurrentCy] == 'B')
+		}
+		else if (maze[CurrentCx + 1][CurrentCy] != 'B')
+		{
+			// Moving downward
+			CurrentCx++;
+
+			if (maze[CurrentCx][CurrentCy + 1] != 'B')
+			{
+				stackCx.push(CurrentCx);
+				stackCy.push(CurrentCy + 1);
+			}
+
+		}
+		else if (maze[CurrentCx][CurrentCy + 1] == 'B' && maze[CurrentCx + 1][CurrentCy] == 'B')
 		{
 			// You have blocked, all paths are closed then pop your stack
 			CurrentCx = stackCx.Top();
