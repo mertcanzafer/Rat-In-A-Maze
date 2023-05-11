@@ -359,52 +359,38 @@ ostream& operator<<(ostream& os, const Maze& obj)
 void Maze::Motion()
 {
 	PrintMaze();
-
-	// There is two possibilites at the beginning
-	string MoveOrder1 = "right";
-	string MoveOrder2 = "down";
-	string choice;
-    //0. Prompt to raze the choose one option between thoose two. 	
-	//1. Show the maze
-	//2. Find the possible ways in the maze.
-	//3. Use your stack container to help to find exit
-	cout << "right or down: ";
-	cin >> choice;
-
-	// Holding initial point
-	stackCx.push(CurrentCx);
-	stackCy.push(CurrentCy);
-
+	//1. Find the possible ways in the maze.
+	//2. Use your stack container to help to find exit
 	while (CurrentCx != EndCx || CurrentCy != EndCy)
 	{
 		// Move order is: right, down, left and up.
 		cout << "Current x: " << CurrentCx << endl;
 		cout << "Current y: " << CurrentCy << endl;
         
-		if (maze[CurrentCx][CurrentCy + 1] != 'B')
+		if (CurrentCy < 14 && maze[CurrentCx][CurrentCy + 1] != 'B')
 		{
-			// Moving rightward
-			CurrentCy++;
-
+			// Moving rightward...
 			if (maze[CurrentCx + 1][CurrentCy] != 'B')
 			{
-				stackCx.push(CurrentCx + 1);
+				stackCx.push(CurrentCx);
 				stackCy.push(CurrentCy);
 			}
-
-
+			CurrentCy++;
 		}
 		else if (maze[CurrentCx + 1][CurrentCy] != 'B')
 		{
 			// Moving downward
-			CurrentCx++;
-
 			if (maze[CurrentCx][CurrentCy + 1] != 'B')
 			{
 				stackCx.push(CurrentCx);
-				stackCy.push(CurrentCy + 1);
+				stackCy.push(CurrentCy);
 			}
-
+			CurrentCx++;
+		}
+		else if (CurrentCx > 0 && maze[CurrentCx - 1][CurrentCy] != 'B')
+		{
+			// Move to up direction!!!
+			CurrentCx--;
 		}
 		else if (maze[CurrentCx][CurrentCy + 1] == 'B' && maze[CurrentCx + 1][CurrentCy] == 'B')
 		{
@@ -413,10 +399,10 @@ void Maze::Motion()
 			CurrentCy = stackCy.Top();
 			stackCx.pop();
 			stackCy.pop();
+			maze[CurrentCx][CurrentCy + 1] = 'B';
 			maze[CurrentCx][CurrentCy] = 'B';
+		
 		}
-
-
 	}
 	cout << "Congratulations! You have reached the exit." << endl;
 }
