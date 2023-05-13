@@ -380,7 +380,7 @@ void Maze::Motion()
 		else if (maze[CurrentCx + 1][CurrentCy] != 'B')
 		{
 			// Moving downward
-			if (maze[CurrentCx][CurrentCy + 1] != 'B')
+			if (CurrentCy< 14 && maze[CurrentCx][CurrentCy + 1] != 'B')
 			{
 				stackCx.push(CurrentCx);
 				stackCy.push(CurrentCy);
@@ -399,19 +399,24 @@ void Maze::Motion()
 			CurrentCy = stackCy.Top();
 			stackCx.pop();
 			stackCy.pop();
-			maze[CurrentCx][CurrentCy + 1] = 'B';
+
+			if (CurrentCy != 14)
+			{
+				maze[CurrentCx][CurrentCy + 1] = 'B';
+			}
 			maze[CurrentCx][CurrentCy] = 'B';
 		
 		}
 	}
 	cout << "Congratulations! You have reached the exit." << endl;
+	cout << "Rat is at point (" << EndCx << " , " << EndCy << " )" << endl;
 }
 
 int main()
 {
 	Maze myMaze;
 
-	myMaze.PrintMaze();
+	myMaze.Motion();
 
 	return 0;
 }
