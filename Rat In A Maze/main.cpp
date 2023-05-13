@@ -327,7 +327,7 @@ public:
 	// Destructor
 	~Maze()
 	{
-		
+		cout << "\nDestructor called" << endl;
 	}
 
 };
@@ -414,9 +414,11 @@ void Maze::Motion()
 
 int main()
 {
-	Maze myMaze;
+	Maze* myRat = new Maze();
 
-	myMaze.Motion();
+	myRat->Motion();
+
+	delete myRat;
 
 	return 0;
 }
